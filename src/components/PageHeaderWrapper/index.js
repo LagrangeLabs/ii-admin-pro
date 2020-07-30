@@ -1,30 +1,38 @@
+/**
+ * 面包屑由 PageHeaderWrapper 实现
+ */
 import React from 'react';
-import {Link} from 'umi';
-import PageHeader from '@/components/PageHeader';
+import { Link } from 'umi';
 import { connect } from 'dva';
+import PageHeader from '@/components/PageHeader';
 import GridContent from './GridContent';
-import styles from './index.less';
 import MenuContext from '@/layouts/MenuContext';
 
-const PageHeaderWrapper = ({ children, contentWidth, wrapperClassName, top, ...restProps }) => (
+import styles from './index.less';
+
+const PageHeaderWrapper = ({
+  children,
+  contentWidth,
+  wrapperClassName,
+  top,
+  ...restProps
+}) => (
   <div style={{ margin: '-24px -24px 0' }} className={wrapperClassName}>
     {top}
     <MenuContext.Consumer>
       {value => (
         <PageHeader
           wide={contentWidth === 'Fixed'}
-          home={'主页'}
+          home="主页"
           {...value}
           key="pageheader"
           {...restProps}
           linkElement={Link}
-          itemRender={item => {
-            console.log('菜单item:', item);
-            return item.name;
-          }}
+          itemRender={item => item.name} // 面包屑名称
         />
       )}
     </MenuContext.Consumer>
+
     {children ? (
       <div className={styles.content}>
         <GridContent>{children}</GridContent>

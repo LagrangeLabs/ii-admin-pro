@@ -58,7 +58,9 @@ export default class PageHeader extends PureComponent {
                 </div>
                 <div className={styles.row}>
                   {content && <div className={styles.content}>{content}</div>}
-                  {extraContent && <div className={styles.extraContent}>{extraContent}</div>}
+                  {extraContent && (
+                    <div className={styles.extraContent}>{extraContent}</div>
+                  )}
                 </div>
               </div>
             </div>
