@@ -22,6 +22,7 @@ export interface GlobalModelType {
     saveNotices: Reducer<GlobalModelState>;
     saveUnread: Reducer<GlobalModelState>;
   };
+  subscriptions: any;
 }
 
 const GlobalModel: GlobalModelType = {
@@ -99,6 +100,17 @@ const GlobalModel: GlobalModelType = {
         ...state,
         unRead: payload,
       };
+    },
+  },
+  subscriptions: {
+    setup({ dispatch, history }) {
+      history.listen(location => {
+        const { pathname } = location;
+
+        if (pathname !== '/user/login' && pathname !== '/') {
+          // To do something
+        }
+      });
     },
   },
 };

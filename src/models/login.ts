@@ -31,7 +31,7 @@ export interface LoginModelType {
   };
 }
 
-const PolicyModel: LoginModelType = {
+const LoginModel: LoginModelType = {
   namespace: 'login',
   state: {
     userInfo: {},
@@ -94,4 +94,4 @@ const PolicyModel: LoginModelType = {
   },
 };
 
-export default PolicyModel;
+export default LoginModel;
