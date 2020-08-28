@@ -68,6 +68,22 @@ export const setAuthToken = token => {
   request.extendOptions({ headers: { Authorization: token } });
 };
 
+// 设置 Authorization
+request.interceptors.request.use((url, options) => {
+  if (options.headers && !options.headers.Authorization) {
+    const cacheUserInfo = localStorage.getItem('userInfo') || '{}';
+    const userInfo = JSON.parse(cacheUserInfo) || {};
+    if (userInfo.authorization) {
+      options.headers.Authorization = userInfo.authorization;
+    }
+  }
+
+  return {
+    url,
+    options,
+  };
+});
+
 request.interceptors.response.use(async (response, options) => {
   if (options && options.responseType === 'blob') {
     return response;
@@ -78,7 +94,8 @@ request.interceptors.response.use(async (response, options) => {
 
     if (res.code !== 0) {
       if (notShowErrorCode.indexOf(res.code) === -1) {
-        if (res.code === 20009) {
+        // 鉴权失效
+        if (res.code === 20009 || res.code === 20004) {
           handleTokenInvalid();
           window.localStorage.setItem('userInfo', '');
         } else {
