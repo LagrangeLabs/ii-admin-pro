@@ -74,7 +74,7 @@ const AccountModal = props => {
   return (
     <IModal
       visible={status === ModalStatus.Edit || status === ModalStatus.Create}
-      title={status === ModalStatus.Create ? '新增人员' : '修改人员'}
+      title={status === ModalStatus.Create ? '新增用户' : '修改用户'}
       btnOkText={status === ModalStatus.Create ? '立即添加' : '保存'}
       onCancel={hideModal}
       onOk={doConfirm}

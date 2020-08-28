@@ -38,7 +38,7 @@ export interface ManageAccountModelType {
 }
 
 const CommonModel: Partial<ManageAccountModelType> = generateCommonModel(
-  'manageAccount',
+  'manageUser',
   {
     fetchListApi: fetchListAsync,
     createItemApi: createItemAsync,

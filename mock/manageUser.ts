@@ -11,10 +11,10 @@ const getUserList = (req: Request, res: Response) => {
         {
           id: '@id',
           name: '@name',
-          countyName: '@county',
+          county: '@county',
           departmentId: 741262546174586,
           phone: /^1[0-9]{10}$/,
-          smsFlag: 1,
+          'smsFlag|0-1': 0,
         },
       ],
       size: 10,

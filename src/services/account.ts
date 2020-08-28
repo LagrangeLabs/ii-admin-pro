@@ -1,6 +1,18 @@
 import { stringify } from 'qs';
 import request from '@/utils/request';
 
+export interface IUserListItem {
+  id: number;
+  /** 姓名 */
+  name: string;
+  /** 县城名 */
+  county: string;
+  /** 手机号 */
+  phone: number;
+  /** 是否开启短信通知 */
+  smsFlag: number;
+}
+
 /**
  * 获取账号列表
  *

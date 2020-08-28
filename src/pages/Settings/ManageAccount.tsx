@@ -1,20 +1,26 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from 'dva';
+import { Dispatch } from 'redux';
+import { ColumnProps } from 'antd/lib/table';
+import { IModal } from 'ii-admin-ui';
 import { ModalStatus } from '@/constants/common';
 import PageTable from '@/components/PageTable';
-import { IModal } from 'ii-admin-ui';
 import { UserFilterCfg, UserStatusList } from './config/account';
+import { IUserListItem } from '@/services/account';
 import AccountModal from './AccountModal';
 
 import styles from './ManageAccount.less';
 
-const ManageAccount = props => {
+type Props = ReturnType<typeof mapStateToProps> &
+  ReturnType<typeof mapDispatchToProps>;
+
+const ManageUser: React.FC<Props> = props => {
   const [modalStatus, setModalStatus] = useState(ModalStatus.Hide);
-  const [itemInfo, setItemInfo] = useState({});
+  const [itemInfo, setItemInfo] = useState<Partial<IUserListItem>>({});
   const [needRefresh, setNeedFresh] = useState(false);
 
   const {
-    manageAccount,
+    manageUser,
     getTableList,
     enableItem,
     createItem,
@@ -25,7 +31,7 @@ const ManageAccount = props => {
     userInfo,
   } = props;
 
-  const { total = 0, tableList = [], departmentList = [] } = manageAccount;
+  const { total = 0, tableList = [], departmentList = [] } = manageUser;
 
   useEffect(() => {
     getDepartmentList();
@@ -42,13 +48,13 @@ const ManageAccount = props => {
   };
 
   // 编辑条目操作
-  const editItemOpera = record => {
+  const editItemOpera = (record: IUserListItem) => {
     setModalStatus(ModalStatus.Edit);
     setItemInfo(record);
   };
 
   // 启用/禁用条目操作
-  const enableItemOpera = id => {
+  const enableItemOpera = (id: number) => {
     setNeedFresh(false);
 
     enableItem(id).then(() => {
@@ -67,12 +73,12 @@ const ManageAccount = props => {
     });
   };
 
-  const handleAcitons = (type, record) => {
+  const handleAcitons = (type, record: IUserListItem) => {
     setModalStatus(ModalStatus.Delete);
     setItemInfo(record);
   };
 
-  const columns = [
+  const columns: Array<ColumnProps<IUserListItem>> = [
     {
       title: '姓名',
       key: 'name',
@@ -85,7 +91,7 @@ const ManageAccount = props => {
     },
     {
       title: '所属县级',
-      key: 'countyName',
+      key: 'county',
       width: 200,
     },
     {
@@ -112,17 +118,13 @@ const ManageAccount = props => {
       width: 158,
       render: (text, record) => (
         <div className={styles.pageTableAction}>
-          {record.name === 'admin' ? null : (
-            <>
-              {record.smsFlag === 0 ? (
-                <a onClick={() => enableItemOpera(record.id)}>启用</a>
-              ) : (
-                <a onClick={() => enableItemOpera(record.id)}>禁用</a>
-              )}
-              <a onClick={() => editItemOpera(record)}>编辑</a>
-              <a onClick={() => handleAcitons('delete', record)}>删除</a>
-            </>
+          {record.smsFlag === 0 ? (
+            <a onClick={() => enableItemOpera(record.id)}>启用</a>
+          ) : (
+            <a onClick={() => enableItemOpera(record.id)}>禁用</a>
           )}
+          <a onClick={() => editItemOpera(record)}>编辑</a>
+          <a onClick={() => handleAcitons('delete', record)}>删除</a>
         </div>
       ),
     },
@@ -131,7 +133,7 @@ const ManageAccount = props => {
   return (
     <PageTable
       total={total}
-      pageTitle="人员管理"
+      pageTitle="用户管理"
       uniqueKey="id"
       tableList={tableList}
       getTableList={params =>
@@ -143,7 +145,7 @@ const ManageAccount = props => {
       columns={columns}
       filters={UserFilterCfg}
       showCreate={true}
-      createTitle="新增人员"
+      createTitle="新增用户"
       createCallback={createItemOpera}
       needRefresh={needRefresh}
     >
@@ -153,7 +155,7 @@ const ManageAccount = props => {
         title="删除"
         onOk={deleteItemOpera}
       >
-        <div>删除后，该人员将不可找回。请确认，是否继续删除？</div>
+        <div>删除后，该用户将不可找回。请确认，是否继续删除？</div>
       </IModal>
 
       <AccountModal
@@ -171,17 +173,17 @@ const ManageAccount = props => {
 };
 
 const mapStateToProps = state => {
-  const { manageAccount = {}, loading, login } = state;
+  const { manageUser = {}, loading, login } = state;
 
   return {
-    manageAccount,
+    manageUser,
     userInfo: login.userInfo || {},
-    createLoading: loading.effects['manageAccount/createItem'],
+    createLoading: loading.effects['manageUser/createItem'],
   };
 };
 
-const mapDispatchToProps = dispatch => {
-  const namespace = 'manageAccount';
+const mapDispatchToProps = (dispatch: Dispatch) => {
+  const namespace = 'manageUser';
 
   return {
     getTableList: ({ pageNum, pageSize, ...restParams }) =>
@@ -189,17 +191,17 @@ const mapDispatchToProps = dispatch => {
         type: `${namespace}/queryTableList`,
         payload: { current: pageNum, size: pageSize, ...restParams },
       }),
-    getDepartmentList: () =>
-      dispatch({ type: `${namespace}/queryDepartmentList` }),
-    enableItem: userCode =>
-      dispatch({ type: `${namespace}/enableItem`, payload: userCode }),
     createItem: params =>
       dispatch({ type: `${namespace}/createItem`, payload: params }),
-    deleteItem: userCode =>
-      dispatch({ type: `${namespace}/deleteItem`, payload: userCode }),
     updateItem: params =>
       dispatch({ type: `${namespace}/updateItem`, payload: params }),
+    deleteItem: (id: number) =>
+      dispatch({ type: `${namespace}/deleteItem`, payload: id }),
+    getDepartmentList: () =>
+      dispatch({ type: `${namespace}/queryDepartmentList` }),
+    enableItem: (id: number) =>
+      dispatch({ type: `${namespace}/enableItem`, payload: id }),
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(ManageAccount);
+export default connect(mapStateToProps, mapDispatchToProps)(ManageUser);

@@ -31,7 +31,7 @@ const routes = [
               },
               {
                 path: '/settings/account',
-                name: '人员管理',
+                name: '用户管理',
                 component: './Settings/ManageAccount',
               },
             ],
