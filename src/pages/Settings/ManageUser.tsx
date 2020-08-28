@@ -3,9 +3,10 @@ import { connect } from 'dva';
 import { Dispatch } from 'redux';
 import { ColumnProps } from 'antd/lib/table';
 import { IModal } from 'ii-admin-ui';
+import { ConnectState } from '@/models/connect';
 import { ModalStatus } from '@/constants/common';
 import PageTable from '@/components/PageTable';
-import { UserFilterCfg, UserStatusList } from './config/account';
+import { UserFilterCfg, UserStatusList } from './config/user';
 import { IUserListItem } from '@/services/user';
 import UserModal from './UserModal';
 
@@ -67,7 +68,7 @@ const ManageUser: React.FC<Props> = props => {
   const deleteItemOpera = () => {
     setNeedFresh(false);
 
-    deleteItem(itemInfo.id).then(() => {
+    deleteItem(itemInfo.id as number).then(() => {
       setModalStatus(ModalStatus.Hide);
       setNeedFresh(true);
     });
@@ -172,7 +173,7 @@ const ManageUser: React.FC<Props> = props => {
   );
 };
 
-const mapStateToProps = state => {
+const mapStateToProps = (state: ConnectState) => {
   const { manageUser = {}, loading, login } = state;
 
   return {

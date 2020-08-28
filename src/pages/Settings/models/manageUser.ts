@@ -16,28 +16,28 @@ import generateCommonModel, {
   CommonModelReducers,
 } from '@/utils/redux';
 
-export interface ManageAccountModelState extends CommonModelState {
+export interface ManageUserModelState extends CommonModelState {
   departmentList: [];
 }
 
-export interface ManageAccountEffects extends CommonModelEffects {
+export interface ManageUserEffects extends CommonModelEffects {
   enableItem?: Effect;
   queryDepartmentList?: Effect;
 }
 
-export interface ManageAccountReducers
-  extends CommonModelReducers<ManageAccountModelState> {
-  setDepartmentList: Reducer<ManageAccountModelState>;
+export interface ManageUserReducers
+  extends CommonModelReducers<ManageUserModelState> {
+  setDepartmentList: Reducer<ManageUserModelState>;
 }
 
-export interface ManageAccountModelType {
+export interface ManageUserModelType {
   namespace: string;
-  state: ManageAccountModelState;
-  effects: ManageAccountEffects;
-  reducers: ManageAccountReducers;
+  state: ManageUserModelState;
+  effects: ManageUserEffects;
+  reducers: ManageUserReducers;
 }
 
-const CommonModel: Partial<ManageAccountModelType> = generateCommonModel(
+const CommonModel: Partial<ManageUserModelType> = generateCommonModel(
   'manageUser',
   {
     fetchListApi: fetchListAsync,
@@ -47,7 +47,7 @@ const CommonModel: Partial<ManageAccountModelType> = generateCommonModel(
   },
 );
 
-const ExtendModel: Partial<ManageAccountModelType> = {
+const ExtendModel: Partial<ManageUserModelType> = {
   state: {
     departmentList: [],
   },
@@ -81,6 +81,6 @@ const ExtendModel: Partial<ManageAccountModelType> = {
   },
 };
 
-const ManageAccountDataModel = _.merge(CommonModel, ExtendModel);
+const ManageUserDataModel = _.merge(CommonModel, ExtendModel);
 
-export default ManageAccountDataModel;
+export default ManageUserDataModel;

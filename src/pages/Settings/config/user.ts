@@ -1,6 +1,6 @@
 import { FilterItemProps } from '@/components/PageTable';
 
-// 账号管理页面筛选项配置
+// 用户管理页面筛选项配置
 export const UserFilterCfg: Array<FilterItemProps> = [
   {
     type: 'search',
@@ -10,7 +10,7 @@ export const UserFilterCfg: Array<FilterItemProps> = [
   },
 ];
 
-// 账号状态列表
+// 用户状态列表
 export const UserStatusList = [
   {
     value: 0,
