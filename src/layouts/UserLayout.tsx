@@ -2,7 +2,7 @@ import React from 'react';
 import { Helmet } from 'react-helmet';
 
 const UserLayout = ({ children }) => {
-  const title = '统一后台模板系统';
+  const title = '实在中后台统一模板';
 
   return (
     <>

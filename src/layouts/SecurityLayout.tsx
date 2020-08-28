@@ -6,6 +6,7 @@ import { history, Redirect } from 'umi';
 import moment from 'moment';
 import { stringify } from 'querystring';
 import 'ii-admin-ui/dist/index.css';
+import { getMenuPath } from '@/utils/menu';
 
 interface SecurityLayoutProps extends ConnectProps {
   loading: boolean;
@@ -36,15 +37,17 @@ class SecurityLayout extends React.Component<
         const menus = JSON.parse(cacheRoutes) || [];
 
         dispatch({ type: 'login/setUserInfo', payload: userInfo });
-        dispatch({ type: 'menu/setPermissionRoutes', payload: menus });
+        dispatch({ type: 'menu/setPermissionMenuData', payload: menus });
 
         if (window.location.pathname === '/') {
           if (menus.length === 0) {
             history.push('/user/login');
           } else {
-            history.push(menus[0].path || '/');
+            history.push(getMenuPath(menus[0]));
           }
         }
+      } else {
+        history.push('/user/login');
       }
     }
   }

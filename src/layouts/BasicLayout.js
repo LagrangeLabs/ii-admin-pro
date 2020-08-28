@@ -22,6 +22,11 @@ import zhCN from 'antd/es/locale/zh_CN';
 import ModfiyPassword from './ModifyPassword';
 import { getPageQuery } from '@/utils/utils';
 import { stringify } from 'querystring';
+import moment from 'moment';
+import 'moment/locale/zh-cn';
+
+// 对日历组件进行中文汉化
+moment.locale('zh-cn');
 
 const { Content } = Layout;
 
@@ -55,9 +60,7 @@ class BasicLayout extends React.PureComponent {
     super(props);
     this.getPageTitle = memoizeOne(this.getPageTitle);
     this.matchParamsPath = memoizeOne(this.matchParamsPath, isEqual);
-    this.state = {
-      modalStatus: false,
-    };
+    this.state = { modalStatus: false };
   }
 
   componentDidMount() {
@@ -72,21 +75,17 @@ class BasicLayout extends React.PureComponent {
     getMenuData({ routes, authority, permissionMenuData });
   }
 
-  componentDidUpdate(preProps) {
-    // After changing to phone mode,
-    // if collapsed is true, you need to click twice to display
-    const { collapsed, isMobile } = this.props;
-    if (isMobile && !preProps.isMobile && !collapsed) {
+  componentDidUpdate() {
+    const { collapsed } = this.props;
+
+    if (!collapsed) {
       this.handleMenuCollapse(false);
     }
   }
 
-  hideModal() {
-    this.setState({ modalStatus: false });
-  }
-
   getContext() {
     const { location, breadcrumbNameMap } = this.props;
+
     return {
       location,
       breadcrumbNameMap,
@@ -97,40 +96,45 @@ class BasicLayout extends React.PureComponent {
     const pathKey = Object.keys(breadcrumbNameMap).find(key =>
       pathToRegexp(key).test(pathname),
     );
+
     return breadcrumbNameMap[pathKey];
   };
 
   getPageTitle = (pathname, breadcrumbNameMap) => {
     const { title } = this.props;
-    const currhistoryData = this.matchParamsPath(pathname, breadcrumbNameMap);
+    const currRouterData = this.matchParamsPath(pathname, breadcrumbNameMap);
 
-    console.log('currentHistoryData:', currhistoryData);
-    console.log('title:', title);
-
-    if (!currhistoryData) {
+    if (!currRouterData) {
       return title;
     }
 
-    return `${currhistoryData.name} - ${title}`;
+    return `${currRouterData.name} - ${title}`;
   };
 
   getLayoutStyle = () => {
-    const { fixSiderbar, isMobile, collapsed, layout } = this.props;
-    if (fixSiderbar && layout !== 'topmenu' && !isMobile) {
+    const { fixSiderbar, collapsed, layout } = this.props;
+
+    if (fixSiderbar && layout !== 'topmenu') {
       return {
         paddingLeft: collapsed ? '80px' : '200px',
       };
     }
+
     return null;
   };
 
   handleMenuCollapse = collapsed => {
     const { dispatch } = this.props;
+
     dispatch({
       type: 'global/changeLayoutCollapsed',
       payload: collapsed,
     });
   };
+
+  hideModal() {
+    this.setState({ modalStatus: false });
+  }
 
   filterCurrentMenu = (menuItem, filterRoutes) => {
     if (menuItem.children && menuItem.children.length > 0) {
@@ -145,31 +149,19 @@ class BasicLayout extends React.PureComponent {
         return true;
       }
     } else {
-      return filterRoutes.includes(menuItem.path);
+      return filterRoutes.includes(menuItem.path) && !menuItem.hideInMenu;
     }
   };
 
   filterMenuData = () => {
-    const { menuData = [], permissionMenuData = [] } = this.props;
-    const permissionRoutes = [];
-    console.log('this props:', this.props);
-
-    permissionMenuData.map(item => {
-      if (item.routes) {
-        item.routes.map(subItem => {
-          permissionRoutes.push(subItem.path);
-        });
-      }
-
-      permissionRoutes.push(item.path);
-    });
+    const { menuData = [], permissionRoutes = [] } = this.props;
 
     const filterMenus = menuData.filter(item => {
       return this.filterCurrentMenu(item, permissionRoutes);
     });
 
-    // return filterMenus;
-    return menuData;
+    return filterMenus;
+    // return menuData;
   };
 
   render() {
@@ -181,7 +173,7 @@ class BasicLayout extends React.PureComponent {
       isMobile,
       breadcrumbNameMap,
       title,
-      permissionArray,
+      permissionRoutes,
       route: { routes },
       fixedHeader,
     } = this.props;
@@ -189,7 +181,7 @@ class BasicLayout extends React.PureComponent {
     const nMenus = this.filterMenuData();
     const { modalStatus } = this.state;
     // Find a route that matches the pathname.
-    const currentRoute = permissionArray.find(item =>
+    const currentRoute = permissionRoutes.find(item =>
       pathToRegexp(item).exec(pathname),
     );
     // Query whether you have permission to enter this page
@@ -199,10 +191,11 @@ class BasicLayout extends React.PureComponent {
 
     const isTop = PropsLayout === 'topmenu';
     const contentStyle = !fixedHeader ? { paddingTop: 0 } : {};
+
     const layout = (
       <ConfigProvider locale={zhCN}>
         <Layout>
-          {isTop && !isMobile ? null : (
+          {isTop ? null : (
             <SiderMenu
               logo={logo}
               theme={navTheme}
@@ -229,8 +222,7 @@ class BasicLayout extends React.PureComponent {
               showPasswordModal={() => this.setState({ modalStatus: true })}
             />
             <Content className={styles.content} style={contentStyle}>
-              {children}
-              {/* {hasPermission ? children : <Error />} */}
+              {hasPermission ? children : <Error />}
             </Content>
             {/* <Footer /> */}
             <ModfiyPassword
@@ -263,12 +255,12 @@ const mapStateToProps = ({ global, settings, menu, login }) => {
     collapsed: global.collapsed,
     layout: settings.layout,
     menuData: menu.menuData,
-    permissionArray: menu.permissionArray,
+    permissionRoutes: menu.permissionRoutes,
     noticeList: global.notices,
     unRead: global.unRead,
     breadcrumbNameMap: menu.breadcrumbNameMap,
     userInfo: login.userInfo,
-    permissionMenuData: menu.permissionRoutes,
+    permissionMenuData: menu.permissionMenuData,
     ...settings,
   };
 };
