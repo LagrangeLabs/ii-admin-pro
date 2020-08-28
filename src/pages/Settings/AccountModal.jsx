@@ -99,7 +99,7 @@ const AccountModal = props => {
           <Input placeholder="请输入手机号" />
         </FormItem>
         <FormItem
-          label="所属部门"
+          label="所属县级"
           name="departmentId"
           rules={[{ required: true, message: '请选择所属部门' }]}
         >

@@ -1,7 +1,8 @@
 {
   "private": true,
   "scripts": {
-    "start": "umi dev",
+    "dev": "MOCK=none umi dev",
+    "mock": "umi dev",
     "build": "umi build",
     "postinstall": "umi generate tmp",
     "prettier": "prettier --write '**/*.{js,jsx,tsx,ts,less,md,json}'",
@@ -46,6 +47,7 @@
   },
   "devDependencies": {
     "@types/classnames": "^2.2.10",
-    "husky": "^4.2.5"
+    "husky": "^4.2.5",
+    "mockjs": "^1.1.0"
   }
 }

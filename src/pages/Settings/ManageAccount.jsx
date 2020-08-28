@@ -84,14 +84,14 @@ const ManageAccount = props => {
       width: 450,
     },
     {
-      title: '所属部门',
-      key: 'departmentName',
+      title: '所属县级',
+      key: 'countyName',
       width: 200,
     },
     {
       title: '短信通知',
       key: 'smsFlag',
-      width: 76,
+      width: 100,
       render: text => {
         const item = UserStatusList[text];
 

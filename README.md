@@ -20,7 +20,7 @@ $ yarn mock
 $ yarn dev
 ```
 
-项目打包编译。
+项目打包编译。
 
 ```bash
 $ yarn build

@@ -123,12 +123,6 @@ const ManageDepartment = props => {
       width: 162,
     },
     {
-      title: '关联角色',
-      key: 'roleType',
-      width: 160,
-      render: text => (text === 0 ? '项目工作员' : '项目办理员'),
-    },
-    {
       title: '状态',
       key: 'status',
       width: 90,
@@ -157,7 +151,7 @@ const ManageDepartment = props => {
       key: 'action',
       width: 220,
       render: (text, record) => {
-        return record.departmentId !== userInfo.departmentId ? (
+        return (
           <div className={styles.pageTableAction}>
             {record.status === 0 ? (
               <a onClick={() => enableItemOpera(record.userId)}>启用</a>
@@ -168,7 +162,7 @@ const ManageDepartment = props => {
             <a onClick={() => handleAcitons('reset', record)}>重置密码</a>
             <a onClick={() => handleAcitons('delete', record)}>删除</a>
           </div>
-        ) : null;
+        );
       },
     },
   ];
