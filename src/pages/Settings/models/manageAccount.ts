@@ -37,7 +37,7 @@ export interface ManageAccountModelType {
   reducers: ManageAccountReducers;
 }
 
-const CommonModal: Partial<ManageAccountModelType> = generateCommonModel(
+const CommonModel: Partial<ManageAccountModelType> = generateCommonModel(
   'manageAccount',
   {
     fetchListApi: fetchListAsync,
@@ -81,6 +81,6 @@ const ExtendModel: Partial<ManageAccountModelType> = {
   },
 };
 
-const ManageAccountDataModel = _.merge(CommonModal, ExtendModel);
+const ManageAccountDataModel = _.merge(CommonModel, ExtendModel);
 
 export default ManageAccountDataModel;

@@ -23,7 +23,7 @@ export interface ManageDepartmentModelType {
   reducers: CommonModelReducers<ManageDepartmentModelState>;
 }
 
-const CommonModal: ManageDepartmentModelType = generateCommonModel(
+const CommonModel: ManageDepartmentModelType = generateCommonModel(
   'manageDepartment',
   {
     fetchListApi: fetchListAsync,
@@ -71,6 +71,6 @@ const ExtendModel: Partial<ManageDepartmentModelType> = {
   },
 };
 
-const ManageDepartmentModel = _.merge(CommonModal, ExtendModel);
+const ManageDepartmentModel = _.merge(CommonModel, ExtendModel);
 
 export default ManageDepartmentModel;
