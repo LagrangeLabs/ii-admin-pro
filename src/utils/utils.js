@@ -189,19 +189,6 @@ export function isAntdPro() {
   return window.location.hostname === 'preview.pro.ant.design';
 }
 
-export function getHomePath() {
-  const cacheInfo = localStorage.getItem('userInfo');
-
-  if (cacheInfo) {
-    const userInfo = JSON.parse(cacheInfo);
-    const { menus = [] } = userInfo;
-
-    return menus[0].url || '/';
-  }
-
-  return '/';
-}
-
 function isIE() {
   if (!!window.ActiveXObject || 'ActiveXObject' in window) {
     return true;
