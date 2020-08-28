@@ -30,9 +30,9 @@ const routes = [
                 component: './Settings/ManageDepartment',
               },
               {
-                path: '/settings/account',
+                path: '/settings/user',
                 name: '用户管理',
-                component: './Settings/ManageAccount',
+                component: './Settings/ManageUser',
               },
             ],
           },

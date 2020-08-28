@@ -30,7 +30,7 @@ const getPermissionRoutes = (req: Request, res: Response) => {
           },
           {
             name: '账户管理',
-            path: '/settings/account',
+            path: '/settings/user',
           },
         ],
       },

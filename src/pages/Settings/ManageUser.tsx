@@ -6,10 +6,10 @@ import { IModal } from 'ii-admin-ui';
 import { ModalStatus } from '@/constants/common';
 import PageTable from '@/components/PageTable';
 import { UserFilterCfg, UserStatusList } from './config/account';
-import { IUserListItem } from '@/services/account';
-import AccountModal from './AccountModal';
+import { IUserListItem } from '@/services/user';
+import UserModal from './UserModal';
 
-import styles from './ManageAccount.less';
+import styles from './ManageUser.less';
 
 type Props = ReturnType<typeof mapStateToProps> &
   ReturnType<typeof mapDispatchToProps>;
@@ -158,7 +158,7 @@ const ManageUser: React.FC<Props> = props => {
         <div>删除后，该用户将不可找回。请确认，是否继续删除？</div>
       </IModal>
 
-      <AccountModal
+      <UserModal
         status={modalStatus}
         hideModal={hideModal}
         selectedItem={itemInfo}
