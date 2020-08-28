@@ -25,9 +25,11 @@ const PageTable: FC<IPageTableProps> = props => {
     createCallback,
     exportCallback,
     needExport,
+    needSelect,
     extraCallback,
     defaultCondtions = {},
     needRefresh,
+    scroll,
   } = props;
 
   const [pageNum, setPageNum] = useState(1);
@@ -85,18 +87,24 @@ const PageTable: FC<IPageTableProps> = props => {
     setSelectedRowKeys(selectRowKeys);
   };
 
-  const rowSelection = needExport
-    ? {
-        selectedRowKeys,
-        onChange: onSelectChange,
-      }
-    : undefined;
+  const rowSelection =
+    needExport && needSelect
+      ? {
+          selectedRowKeys,
+          onChange: onSelectChange,
+        }
+      : undefined;
 
   const handleExport = () => {
-    if (selectedRowKeys.length === 0) {
-      message.error('请先选择要导出的数据');
+    if (needSelect) {
+      if (selectedRowKeys.length === 0) {
+        message.error('请先选择要导出的数据');
+        return;
+      } else {
+        exportCallback && exportCallback(selectedRowKeys);
+      }
     } else {
-      exportCallback(selectedRowKeys);
+      exportCallback && exportCallback(searchConditons);
     }
   };
 
@@ -144,7 +152,8 @@ const PageTable: FC<IPageTableProps> = props => {
           columns={nColumns}
           dataSource={tableList}
           rowSelection={rowSelection}
-          scroll={{ x: 1132 }}
+          // scroll={{ x: 1132 }}
+          scroll={scroll ? scroll : { x: 1132 }}
           pagination={{
             total,
             showSizeChanger: false,
@@ -165,6 +174,7 @@ PageTable.defaultProps = {
   showCreate: false,
   needRefresh: false,
   needExport: false,
+  needSelect: true,
   uniqueKey: 'id',
 };
 
