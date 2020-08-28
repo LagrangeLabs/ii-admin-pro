@@ -1,15 +1,27 @@
-# umi project
+# 实在智能中后台项目统一模板 (ii-admin-pro)
 
-## Getting Started
+## 一、项目启动 
 
-Install dependencies,
+安装依赖。
 
 ```bash
 $ yarn
 ```
 
-Start the dev server,
+运行 Mock 环境。
 
 ```bash
-$ yarn start
+$ yarn mock 
+```
+
+测试环境。
+
+```bash
+$ yarn dev
+```
+
+项目打包编译。
+
+```bash
+$ yarn build
 ```
