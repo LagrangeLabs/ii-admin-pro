@@ -5,7 +5,6 @@ import { connect } from 'dva';
 import { history, Redirect } from 'umi';
 import moment from 'moment';
 import { stringify } from 'querystring';
-import 'ii-admin-ui/dist/index.css';
 import { getMenuPath } from '@/utils/menu';
 
 interface SecurityLayoutProps extends ConnectProps {
