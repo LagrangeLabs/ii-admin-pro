@@ -94,7 +94,7 @@ request.interceptors.response.use(async (response, options) => {
 
     if (res.code !== 0) {
       if (notShowErrorCode.indexOf(res.code) === -1) {
-        // 鉴权失效
+        // 鉴权失效错误码
         if (res.code === 20009 || res.code === 20004) {
           handleTokenInvalid();
           window.localStorage.setItem('userInfo', '');

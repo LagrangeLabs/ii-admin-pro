@@ -50,10 +50,11 @@ const generateCommonModel = (
   const effects: CommonModelEffects = {
     *createItem({ payload }, { call, put }) {
       try {
-        const { _msg, ...params } = payload;
+        const { _msg = '操作成功', ...params } = payload;
         const res = yield call(services.createItemApi, params);
 
-        message.success(_msg || '操作成功');
+        _msg && message.success(_msg);
+
         return res;
       } catch (err) {
         throw new Error(err);
@@ -61,8 +62,11 @@ const generateCommonModel = (
     },
     *updateItem({ payload }, { call, put }) {
       try {
-        const res = yield call(services.updateItemApi, payload);
-        message.success('操作成功');
+        const { _msg = '操作成功', ...params } = payload;
+        const res = yield call(services.updateItemApi, params);
+
+        _msg && message.success(_msg);
+
         return res;
       } catch (err) {
         throw new Error(err);
@@ -70,8 +74,19 @@ const generateCommonModel = (
     },
     *deleteItem({ payload }, { call, put }) {
       try {
-        const res = yield call(services.deleteItemApi, payload);
-        message.success('操作成功');
+        let res;
+
+        // 针对删除操作，payload 数据格式通常是一串数字，即ID值
+        if (Object.prototype.toString.call(payload) === '[object Object]') {
+          const { _msg = '操作成功', ...params } = payload;
+
+          res = yield call(services.deleteItemApi, params);
+
+          _msg && message.success(_msg);
+        } else {
+          res = yield call(services.deleteItemApi, payload);
+        }
+
         return res;
       } catch (err) {
         throw new Error(err);
