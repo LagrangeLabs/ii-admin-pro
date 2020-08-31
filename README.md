@@ -28,6 +28,6 @@ $ yarn dev
 $ yarn build
 ```
 
-二、参考资料
+## 二、参考资料
 
 + 在 React&&Redux 项目中，如何使用Typescript编写相关约束，见指南[《react-redux-typescript-guide》](https://github.com/piotrwitek/react-redux-typescript-guide/blob/master/README.md)
