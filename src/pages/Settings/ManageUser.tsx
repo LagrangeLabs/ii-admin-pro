@@ -174,7 +174,7 @@ const ManageUser: React.FC<Props> = props => {
 };
 
 const mapStateToProps = (state: ConnectState) => {
-  const { manageUser = {}, loading, login } = state;
+  const { manageUser, loading, login } = state;
 
   return {
     manageUser,

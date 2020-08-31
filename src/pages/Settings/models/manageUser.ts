@@ -37,15 +37,12 @@ export interface ManageUserModelType {
   reducers: ManageUserReducers;
 }
 
-const CommonModel: Partial<ManageUserModelType> = generateCommonModel(
-  'manageUser',
-  {
-    fetchListApi: fetchListAsync,
-    createItemApi: createItemAsync,
-    updateItemApi: updateItemAsync,
-    deleteItemApi: deleteItemAsync,
-  },
-);
+const CommonModel = generateCommonModel('manageUser', {
+  fetchListApi: fetchListAsync,
+  createItemApi: createItemAsync,
+  updateItemApi: updateItemAsync,
+  deleteItemApi: deleteItemAsync,
+});
 
 const ExtendModel: Partial<ManageUserModelType> = {
   state: {
