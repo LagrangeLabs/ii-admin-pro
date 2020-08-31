@@ -4,6 +4,7 @@
     "dev": "MOCK=none umi dev",
     "mock": "umi dev",
     "build": "umi build",
+    "deploy": "CI=true npm run build",
     "postinstall": "umi generate tmp",
     "prettier": "prettier --write '**/*.{js,jsx,tsx,ts,less,md,json}'",
     "test": "umi-test",

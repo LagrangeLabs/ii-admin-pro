@@ -24,4 +24,5 @@ export default defineConfig({
   manifest: {
     basePath: '/',
   },
+  publicPath: process.env.CI === 'true' ? 'ii-admin-pro/' : '/',
 });
