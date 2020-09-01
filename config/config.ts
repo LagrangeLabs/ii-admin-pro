@@ -25,4 +25,7 @@ export default defineConfig({
     basePath: '/',
   },
   publicPath: process.env.CI === 'true' ? '/ii-admin-pro/' : '/',
+  define: {
+    isDeploy: process.env.CI === 'true' ? 'true' : 'false',
+  },
 });

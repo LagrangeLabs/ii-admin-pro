@@ -65,7 +65,7 @@ export async function fetchAccountLoginAsync(params: LoginParamsType) {
  *
  */
 export async function fetchPermissionsAsync(params: LoginParamsType) {
-  return request('/oauth/permissions');
+  return request('/oauth/permission');
 }
 
 /**

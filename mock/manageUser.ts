@@ -32,6 +32,6 @@ const enableUser = (req: Request, res: Response) => {
 };
 
 export default {
-  'GET /api_v1/smsUsers': getUserList,
-  'PATCH /api_v1/users': enableUser,
+  'GET /api_v1/user': getUserList,
+  'PATCH /api_v1/user': enableUser,
 };

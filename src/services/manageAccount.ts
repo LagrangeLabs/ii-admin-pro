@@ -1,7 +1,7 @@
 import { stringify } from 'qs';
 import request from '@/utils/request';
 
-const CUR_PATH = '/smsUsers';
+const CUR_PATH = '/user';
 
 /**
  * 获取列表

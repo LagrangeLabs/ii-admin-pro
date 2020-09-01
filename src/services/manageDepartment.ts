@@ -4,7 +4,7 @@
 import { stringify } from 'qs';
 import request from '@/utils/request';
 
-const CUR_PATH = '/departments';
+const CUR_PATH = '/department';
 
 /**
  * 获取分页列表
@@ -12,7 +12,7 @@ const CUR_PATH = '/departments';
  * 接口地址：http://yapi.ii-ai.tech/project/355/interface/api/9484
  */
 export async function fetchListAsync(params): Promise<any> {
-  return request(`${CUR_PATH}/users?${stringify(params)}`);
+  return request(`${CUR_PATH}?${stringify(params)}`);
 }
 
 /**
@@ -21,7 +21,7 @@ export async function fetchListAsync(params): Promise<any> {
  * 接口地址：http://yapi.ii-ai.tech/project/355/interface/api/9492
  */
 export async function fetchDepartmentListAsync(params): Promise<any> {
-  return request(`${CUR_PATH}?${stringify(params)}`);
+  return request(`${CUR_PATH}/all?${stringify(params)}`);
 }
 
 /**

@@ -41,5 +41,5 @@ const getPermissionRoutes = (req: Request, res: Response) => {
 
 export default {
   'POST /api_v1/oauth/login': doLogin,
-  'GET /api_v1/oauth/permissions': getPermissionRoutes,
+  'GET /api_v1/oauth/permission': getPermissionRoutes,
 };

@@ -116,6 +116,6 @@ const getAllDepartments = (req: Request, res: Response) => {
 };
 
 export default {
-  'GET /api_v1/departments/users': getDepartmentUserList,
-  'GET /api_v1/departments': getAllDepartments,
+  'GET /api_v1/department': getDepartmentUserList,
+  'GET /api_v1/department/all': getAllDepartments,
 };

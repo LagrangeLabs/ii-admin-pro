@@ -6,6 +6,8 @@ import { extend } from 'umi-request';
 import { notification, message } from 'antd';
 import { handleTokenInvalid } from '@/utils/history';
 
+console.log('++++++process.env:', process.env);
+
 const notShowErrorCode = [8201];
 
 const codeMessage = {
@@ -55,12 +57,17 @@ const errorHandler = (error: { response: Response }): Response => {
   return response;
 };
 
+console.log('isDeploy:', isDeploy);
+
 /**
  * 配置request请求时的默认参数
  */
 const request = extend({
   // errorHandler, // 默认错误处理
-  prefix: '/api_v1',
+  prefix:
+    isDeploy === 'true'
+      ? 'https://ii-pro-api.azurewebsites.net/api/'
+      : '/api_v1',
   credentials: 'include', // 默认请求是否带上cookie
 });
 
