@@ -25,7 +25,8 @@ export default defineConfig({
     basePath: '/',
   },
   publicPath: process.env.CI === 'true' ? '/ii-admin-pro/' : '/',
+  // 定义可用于代码中的变量
   define: {
-    isDeploy: process.env.CI === 'true' ? 'true' : 'false',
+    ENV_DEPLOY: process.env.CI === 'true' ? 'true' : 'false',
   },
 });
