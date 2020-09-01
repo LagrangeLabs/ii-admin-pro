@@ -66,7 +66,7 @@ const request = extend({
   // errorHandler, // 默认错误处理
   prefix:
     isDeploy === 'true'
-      ? 'https://ii-pro-api.azurewebsites.net/api/'
+      ? 'https://ii-pro-api.azurewebsites.net/api'
       : '/api_v1',
   credentials: 'include', // 默认请求是否带上cookie
 });
