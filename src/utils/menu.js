@@ -11,7 +11,10 @@ export const flattenRoute = data => {
       const childRoutes = flattenRoute(routeItem.routes);
       routes = [...routes, ...childRoutes];
     }
-    routes.push(routeItem.path);
+
+    if (routeItem.path) {
+      routes.push(routeItem.path);
+    }
   });
 
   return routes;
