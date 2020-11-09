@@ -3,13 +3,17 @@
   "scripts": {
     "dev": "MOCK=none umi dev",
     "mock": "umi dev",
-    "build": "umi build",
+    "start": "cross-env URL_FLAG=dev umi dev",
+    "build:dev": "cross-env URL_FLAG=dev umi build",
+    "build:qa": "cross-env URL_FLAG=qa umi build",
+    "build": "cross-env URL_FLAG=prod umi build",
     "deploy": "CI=true npm run build",
     "postinstall": "umi generate tmp",
     "prettier": "prettier --write '**/*.{js,jsx,tsx,ts,less,md,json}'",
     "test": "umi-test",
     "test:coverage": "umi-test --coverage",
-    "precommit": "lint-staged"
+    "lint-staged": "lint-staged",
+    "lint-staged:js": "eslint --ext .js,.jsx,.ts,.tsx "
   },
   "gitHooks": {
     "pre-commit": "lint-staged"
@@ -48,8 +52,10 @@
   },
   "devDependencies": {
     "@types/classnames": "^2.2.10",
+    "cross-env": "^7.0.2",
     "gh-pages": "^3.1.0",
     "husky": "^4.2.5",
-    "mockjs": "^1.1.0"
+    "mockjs": "^1.1.0",
+    "yorkie": "^2.0.0"
   }
 }
