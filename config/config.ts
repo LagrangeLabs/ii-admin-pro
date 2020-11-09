@@ -3,6 +3,8 @@ import defaultSettings from './defaultSettings';
 import proxy from './proxy';
 import routes from './routes';
 
+const { URL_FLAG = 'dev' } = process.env;
+
 export default defineConfig({
   hash: true,
   antd: {},
@@ -28,5 +30,6 @@ export default defineConfig({
   // 定义可用于代码中的变量
   define: {
     ENV_DEPLOY: process.env.CI === 'true' ? 'true' : 'false',
+    __API_PREFIX_FLAG__: URL_FLAG,
   },
 });
