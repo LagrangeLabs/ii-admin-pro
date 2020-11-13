@@ -3,7 +3,7 @@
   "scripts": {
     "dev": "MOCK=none umi dev",
     "mock": "umi dev",
-    "start": "cross-env URL_FLAG=dev umi dev",
+    "start": "cross-env URL_FLAG=local umi dev",
     "build:dev": "cross-env URL_FLAG=dev umi build",
     "build:qa": "cross-env URL_FLAG=qa umi build",
     "build": "cross-env URL_FLAG=prod umi build",
@@ -54,7 +54,6 @@
     "@types/classnames": "^2.2.10",
     "cross-env": "^7.0.2",
     "gh-pages": "^3.1.0",
-    "husky": "^4.2.5",
     "mockjs": "^1.1.0",
     "yorkie": "^2.0.0"
   }
