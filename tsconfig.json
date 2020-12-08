@@ -1,25 +1,40 @@
 {
   "compilerOptions": {
-    "target": "esnext",
+    "outDir": "build/dist",
     "module": "esnext",
-    "moduleResolution": "node",
-    "importHelpers": true,
-    "jsx": "react",
-    "esModuleInterop": true,
+    "target": "esnext",
+    "lib": ["esnext", "dom"],
     "sourceMap": true,
-    "baseUrl": "./",
+    "baseUrl": ".",
+    "jsx": "react",
+    "allowSyntheticDefaultImports": true,
+    "moduleResolution": "node",
+    "forceConsistentCasingInFileNames": true,
+    "noImplicitReturns": true,
+    "suppressImplicitAnyIndexErrors": true,
+    "noUnusedLocals": true,
+    "allowJs": true,
+    "skipLibCheck": true,
+    "experimentalDecorators": true,
     "strict": true,
     "paths": {
-      "@/*": ["src/*"],
-      "@@/*": ["src/.umi/*"]
-    },
-    "allowSyntheticDefaultImports": true
+      "@/*": ["./src/*"],
+      "@@/*": ["./src/.umi/*"]
+    }
   },
   "include": [
     "mock/**/*",
     "src/**/*",
+    "tests/**/*",
+    "test/**/*",
+    "__test__/**/*",
+    "typings/**/*",
     "config/**/*",
-    ".umirc.ts",
-    "typings.d.ts"
-  ]
+    ".eslintrc.js",
+    ".stylelintrc.js",
+    ".prettierrc.js",
+    "jest.config.js",
+    "mock/*"
+  ],
+  "exclude": ["node_modules", "build", "dist", "scripts", "src/.umi/*", "webpack", "jest"]
 }

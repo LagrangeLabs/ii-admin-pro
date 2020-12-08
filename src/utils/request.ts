@@ -2,11 +2,8 @@
  * request 网络请求工具
  * 更详细的 api 文档: https://github.com/umijs/umi-request
  */
-import { extend } from 'umi-request';
-import { notification, message } from 'antd';
-import { handleTokenInvalid } from '@/utils/history';
-
-const notShowErrorCode = [8201];
+import request, { extend } from 'umi-request'
+import { notification } from 'antd'
 
 const codeMessage = {
   200: '服务器成功返回请求的数据。',
@@ -24,97 +21,53 @@ const codeMessage = {
   502: '网关错误。',
   503: '服务不可用，服务器暂时过载或维护。',
   504: '网关超时。',
-};
+}
 
 /**
  * 异常处理程序
  */
 const errorHandler = (error: { response: Response }): Response => {
-  const { response } = error;
-
+  const { response } = error
   if (response && response.status) {
-    const errorText = codeMessage[response.status] || response.statusText;
-    const { status, url } = response;
+    const errorText = codeMessage[response.status] || response.statusText
+    const { status, url } = response
 
-    if (status === 401) {
-      handleTokenInvalid();
-      window.localStorage.setItem('userInfo', '');
-    } else {
-      notification.error({
-        message: `请求错误 ${status}: ${url}`,
-        description: errorText,
-      });
-    }
+    notification.error({
+      message: `请求错误 ${status}: ${url}`,
+      description: errorText,
+    })
   } else if (!response) {
     notification.error({
       description: '您的网络发生异常，无法连接服务器',
       message: '网络异常',
-    });
+    })
   }
+  return response
+}
 
-  return response;
-};
+/**
+ * 请求拦截
+ */
+request.interceptors.request.use((url, options) => {
+  return {
+    url: `${url}`,
+    options: { ...options, interceptors: true },
+  }
+})
+
+/**
+ * 响应拦截
+ */
+request.interceptors.response.use((response) => {
+  return response
+})
 
 /**
  * 配置request请求时的默认参数
  */
-const request = extend({
-  // errorHandler, // 默认错误处理
-  prefix:
-    ENV_DEPLOY === 'true'
-      ? 'https://ii-pro-api.azurewebsites.net/api'
-      : '/api_v1',
+extend({
+  errorHandler, // 默认错误处理
   credentials: 'include', // 默认请求是否带上cookie
-});
+})
 
-export const setAuthToken = token => {
-  request.extendOptions({ headers: { Authorization: token } });
-};
-
-// 设置 Authorization
-request.interceptors.request.use((url, options) => {
-  if (options.headers && !options.headers.Authorization) {
-    const cacheUserInfo = localStorage.getItem('userInfo') || '{}';
-    const userInfo = JSON.parse(cacheUserInfo) || {};
-    if (userInfo.authorization) {
-      options.headers.Authorization = userInfo.authorization;
-    }
-  }
-
-  return {
-    url,
-    options,
-  };
-});
-
-request.interceptors.response.use(async (response, options) => {
-  if (options && options.responseType === 'blob') {
-    return response;
-  }
-
-  if (response && response.status === 200) {
-    const res = await response.clone().json();
-
-    if (res.code !== 0) {
-      if (notShowErrorCode.indexOf(res.code) === -1) {
-        // 鉴权失效错误码
-        if (res.code === 20009 || res.code === 20004) {
-          handleTokenInvalid();
-          window.localStorage.setItem('userInfo', '');
-        } else {
-          res.msg && message.error(res.msg);
-          throw new Error(res.msg);
-        }
-      } else {
-        // 错误自定义处理
-        throw res;
-      }
-    }
-
-    return response;
-  }
-
-  return errorHandler({ response });
-});
-
-export default request;
+export default request

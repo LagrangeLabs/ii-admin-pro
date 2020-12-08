@@ -1,33 +1,24 @@
-import { MenuTheme } from 'antd/es/menu/MenuContext';
+import { Settings as ProSettings } from '@ant-design/pro-layout'
 
-export type ContentWidth = 'Fluid' | 'Fixed';
-
-export interface DefaultSettings {
-  navTheme: MenuTheme;
-  primaryColor: string;
-  layout: 'sidemenu' | 'topmenu';
-  contentWidth: ContentWidth;
-  fixedHeader: boolean;
-  autoHideHeader: boolean;
-  fixSiderbar: boolean;
-  menu: { locale: boolean };
-  title: string;
-  pwa: boolean;
-  iconfontUrl: string;
+type DefaultSettings = Partial<ProSettings> & {
+  pwa: boolean
 }
 
-export default {
-  navTheme: 'dark',
-  primaryColor: '#3B69EB',
-  layout: 'sidemenu',
+const proSettings: DefaultSettings = {
+  navTheme: 'light',
+  // 拂晓蓝
+  primaryColor: '#1890ff',
+  layout: 'mix',
   contentWidth: 'Fluid',
   fixedHeader: false,
-  autoHideHeader: false,
-  fixSiderbar: false,
-  menu: {
-    locale: true,
-  },
-  title: '统一后台模板系统',
+  fixSiderbar: true,
+  colorWeak: false,
+  title: 'Ii Admin Pro',
   pwa: false,
   iconfontUrl: '',
-} as DefaultSettings;
+  splitMenus: false,
+}
+
+export type { DefaultSettings }
+
+export default proSettings

@@ -1,48 +1,52 @@
-const routes = [
+﻿export default [
   {
     path: '/user',
     component: '../layouts/UserLayout',
     routes: [
       {
-        name: 'login',
+        name: '登录',
         path: '/user/login',
-        component: './User/Login',
+        component: './user/login',
       },
     ],
   },
   {
     path: '/',
     component: '../layouts/SecurityLayout',
-    icon: 'icon-quanxian2x',
     routes: [
       {
         path: '/',
         component: '../layouts/BasicLayout',
+        authority: ['admin', 'user'],
         routes: [
           {
-            path: '/settings',
-            name: '配置管理',
-            icon: 'icon-peizhiguanli2x',
-            routes: [
-              {
-                path: '/settings/department',
-                name: '部门管理',
-                component: './Settings/ManageDepartment',
-              },
-              {
-                path: '/settings/user',
-                name: '用户管理',
-                component: './Settings/ManageUser',
-              },
-            ],
+            path: '/',
+            redirect: '/demo',
+          },
+          {
+            path: '/admin',
+            name: '最高权限',
+            icon: 'crown',
+            component: './Admin',
+            authority: ['admin'],
+          },
+          {
+            path: '/demo',
+            name: '例子',
+            icon: 'crown',
+            component: '@/pages/demo',
           },
           {
             component: './404',
           },
         ],
       },
+      {
+        component: './404',
+      },
     ],
   },
-];
-
-export default routes;
+  {
+    component: './404',
+  },
+]
