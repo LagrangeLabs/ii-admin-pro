@@ -1,41 +1,57 @@
-# 中后台项目统一模板 (ii-admin-pro)
+# Ant Design Pro
 
-`ii-admin-pro` 项目是杭州实在智能前端团队基于现有的中后台业务沉淀的一套中后台项目模板，整个项目模板是基于 Ant Design V4 以及 umi V3 等以上版本进行的沉淀。
+This project is initialized with [Ant Design Pro](https://pro.ant.design). Follow is the quick guide for how to use.
 
-## 一、项目启动 
+## Environment Prepare
 
-安装依赖。
-
-```bash
-$ yarn
-```
-
-运行 Mock 环境。
+Install `node_modules`:
 
 ```bash
-$ yarn mock 
+npm install
 ```
 
-测试环境。
+or
 
 ```bash
-$ yarn dev
+yarn
 ```
 
-项目打包编译。
+## Provided Scripts
+
+Ant Design Pro provides some useful script to help you quick start and build with web project, code style check and test.
+
+Scripts provided in `package.json`. It's safe to modify or add additional script:
+
+### Start project
 
 ```bash
-$ yarn build
+npm start
 ```
 
-## 二、部署事项
+### Build project
 
-### 2.1 持续集成
+```bash
+npm run build
+```
 
-整个项目是基于 Travis CI 搭建的持续集成环境。
+### Check code style
 
-注意：`ii-admin-pro` 项目是基于 `https://travis-ci.org` 进行构建测试的，不是 `https://travis-ci.com`。所以，在本地进行账号登录加密的时候，要使用 `travis login --org`方式进行账号登录。
+```bash
+npm run lint
+```
 
-## 三、参考资料
+You can also use script to auto fix some lint error:
 
-+ 在 React&&Redux 项目中，如何使用Typescript编写相关约束，见指南[《react-redux-typescript-guide》](https://github.com/piotrwitek/react-redux-typescript-guide/blob/master/README.md)
+```bash
+npm run lint:fix
+```
+
+### Test code
+
+```bash
+npm test
+```
+
+## More
+
+You can view full document on our [official website](https://pro.ant.design). And welcome any feedback in our [github](https://github.com/ant-design/ant-design-pro).

@@ -1,97 +1,88 @@
-import { Reducer } from 'redux';
-import { Effect } from 'dva';
-import { history } from 'umi';
-import {
-  fetchAccountLoginAsync,
-  updatePasswordAsync,
-  IUserInfo,
-} from '@/services/login';
-import { setAuthToken } from '@/utils/request';
-import { getPageQuery } from '@/utils/utils';
-import { stringify } from 'querystring';
-import { message } from 'antd';
+import { stringify } from 'querystring'
+import { history, Reducer, Effect } from 'umi'
+import { fakeAccountLogin } from '@/services/login'
+import { setAuthority } from '@/utils/authority'
+import { getPageQuery } from '@/utils/utils'
+import { message } from 'antd'
 
-export interface LoginModelState {
-  currentAuthority?: 'user' | 'guest' | 'admin';
-  userInfo?: IUserInfo;
+export interface StateType {
+  status?: boolean
+  currentAuthority?: 'user' | 'guest' | 'admin'
 }
 
 export interface LoginModelType {
-  namespace: string;
-  state: LoginModelState;
+  namespace: string
+  state: StateType
   effects: {
-    login: Effect;
-    logout: Effect;
-    getPermissions: Effect;
-    getVerifyCode: Effect;
-    updatePassword: Effect;
-  };
+    login: Effect
+    logout: Effect
+  }
   reducers: {
-    setUserInfo: Reducer<LoginModelState>;
-  };
+    changeLoginStatus: Reducer<StateType>
+  }
 }
 
-const LoginModel: LoginModelType = {
+const Model: LoginModelType = {
   namespace: 'login',
+
   state: {
-    userInfo: {},
+    status: undefined,
   },
+
   effects: {
     *login({ payload }, { call, put }) {
-      try {
-        const res = yield call(fetchAccountLoginAsync, payload);
-        yield put({
-          type: 'setUserInfo',
-          payload: res.data,
-        });
-        return res;
-      } catch (err) {
-        yield put({ type: 'setUserInfo', payload: {} });
-        throw new Error(err);
+      const response = yield call(fakeAccountLogin, payload)
+      yield put({
+        type: 'changeLoginStatus',
+        payload: {
+          status: response.code === 0,
+        },
+      })
+      // 登录成功
+      if (response.code === 0) {
+        const urlParams = new URL(window.location.href)
+        const params = getPageQuery()
+        message.success('🎉 🎉 🎉  登录成功！')
+        let { redirect } = params as { redirect: string }
+        if (redirect) {
+          const redirectUrlParams = new URL(redirect)
+          if (redirectUrlParams.origin === urlParams.origin) {
+            redirect = redirect.substr(urlParams.origin.length)
+            if (redirect.match(/^\/.*#/)) {
+              redirect = redirect.substr(redirect.indexOf('#') + 1)
+            }
+          } else {
+            window.location.href = '/'
+            return
+          }
+        }
+        history.replace(redirect || '/')
       }
     },
 
-    *logout({ payload }, { call, put }) {
-      const { redirect } = getPageQuery();
-
+    logout() {
+      const { redirect } = getPageQuery()
+      // Note: There may be security issues, please note
       if (window.location.pathname !== '/user/login' && !redirect) {
         history.replace({
           pathname: '/user/login',
           search: stringify({
             redirect: window.location.href,
           }),
-        });
-      }
-    },
-    *getVerifyCode({ payload }, { call, put }) {
-      const res = yield call(fetchVerfiyCodeAsync, payload);
-
-      if (0 === res.code) {
-        return res;
-      }
-    },
-    *updatePassword({ payload }, { call, put }) {
-      const res = yield call(updatePasswordAsync, payload);
-
-      if (0 === res.code) {
-        message.success('密码更新成功');
-        return res;
+        })
       }
     },
   },
+
   reducers: {
-    setUserInfo(state, { payload = {} }) {
-      const { authorization = '' } = payload;
-
-      setAuthToken(authorization); // 设置请求体
-      localStorage.setItem('userInfo', JSON.stringify(payload)); // 设置缓存
-
+    changeLoginStatus(state, { payload }) {
+      setAuthority(payload.currentAuthority)
       return {
         ...state,
-        userInfo: payload,
-      };
+        status: payload.status,
+      }
     },
   },
-};
+}
 
-export default LoginModel;
+export default Model
