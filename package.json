@@ -44,6 +44,7 @@
     "@ant-design/pro-layout": "^6.5.0",
     "@umijs/route-utils": "^1.0.33",
     "antd": "^4.8.6",
+    "axios": "^0.21.1",
     "classnames": "^2.2.6",
     "lodash": "^4.17.11",
     "moment": "^2.25.3",
@@ -53,7 +54,6 @@
     "react-dom": "^16.8.6",
     "react-helmet-async": "^1.0.4",
     "umi": "^3.2.14",
-    "umi-request": "^1.0.8",
     "use-merge-value": "^1.0.1"
   },
   "devDependencies": {

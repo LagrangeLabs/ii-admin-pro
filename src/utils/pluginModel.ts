@@ -1,14 +1,15 @@
-import { Reducer, Effect } from 'umi'
+import type { Reducer, Effect } from 'umi'
 
 import { message } from 'antd'
 
-export interface PluginModelState<T extends any> {
+export type PluginModelState<T = any> = {
   total?: number
+  current?: number
   tableList?: T[]
-  filterOpts?: Array<object>[] | object
+  filterOpts?: object[][] | object
 }
 
-export interface PluginModelEffects {
+export type PluginModelEffects = {
   createItem?: Effect
   updateItem?: Effect
   deleteItem?: Effect
@@ -17,13 +18,14 @@ export interface PluginModelEffects {
   queryFilterOpts?: Effect
 }
 
-export interface PluginModelReducers<T> {
+export type PluginModelReducers<T> = {
   saveTableList?: Reducer<T>
   saveTotal?: Reducer<T>
+  saveCurrent?: Reducer<T>
   saveFilterOpts?: Reducer<T>
 }
 
-export interface PluginServices {
+export type PluginServices = {
   /** 创建单个条目接口 */
   createItemApi?: (params: any) => Promise<any>
   /** 更新单个条目接口 */
@@ -37,7 +39,7 @@ export interface PluginServices {
   fetchFilterOptsApi?: (params: any) => Promise<any>
 }
 
-export interface PluginModelConfig {
+export type PluginModelConfig = {
   /** 是否展示序列号 */
   showSerial?: boolean
 }
@@ -49,84 +51,58 @@ const generatePluginModel = <T>(
 ) => {
   const effects: PluginModelEffects = {
     *createItem({ payload }, { call }) {
-      try {
-        const { _msg = '操作成功', ...params } = payload
-        const res = yield call(services.createItemApi, params)
-
-        message.success(_msg)
-
-        return res
-      } catch (err) {
-        throw new Error(err)
-      }
+      const { _msg = '操作成功', ...params } = payload
+      const res = yield call(services.createItemApi, params)
+      message.success(_msg)
+      return res
     },
     *updateItem({ payload }, { call }) {
-      try {
-        const { _msg = '操作成功', ...params } = payload
-        const res = yield call(services.updateItemApi, params)
-
-        message.success(_msg)
-
-        return res
-      } catch (err) {
-        throw new Error(err)
-      }
+      const { _msg = '操作成功', ...params } = payload
+      const res = yield call(services.updateItemApi, params)
+      message.success(_msg)
+      return res
     },
     *deleteItem({ payload }, { call }) {
-      try {
-        let res
+      let res
 
-        // 针对删除操作，payload 数据格式通常是一串数字，即ID值
-        if (Object.prototype.toString.call(payload) === '[object Object]') {
-          const { _msg = '操作成功', ...params } = payload
+      // 针对删除操作，payload 数据格式通常是一串数字，即ID值
+      if (Object.prototype.toString.call(payload) === '[object Object]') {
+        const { _msg = '操作成功', ...params } = payload
 
-          res = yield call(services.deleteItemApi, params)
+        res = yield call(services.deleteItemApi, params)
 
-          message.success(_msg)
-        } else {
-          res = yield call(services.deleteItemApi, payload)
-        }
-
-        return res
-      } catch (err) {
-        throw new Error(err)
+        message.success(_msg)
+      } else {
+        res = yield call(services.deleteItemApi, payload)
       }
+
+      return res
     },
     *queryItemInfo({ payload }, { call }) {
-      try {
-        const res = yield call(services.fetchItemInfoApi, payload)
-        return res
-      } catch (err) {
-        throw new Error(err)
-      }
+      return yield call(services.fetchItemInfoApi, payload)
     },
     *queryTableList({ payload }, { call, put }) {
-      try {
-        const res = yield call(services.fetchListApi, payload)
+      const res = yield call(services.fetchListApi, payload)
+      const { showSerial } = config
+      let records = res.data?.records || []
+      const total = res.data?.total || 0
 
-        const { showSerial } = config
-        let { records = [] } = res.data
-        const { total } = res.data
+      if (showSerial) {
+        const { current, size } = payload
 
-        if (showSerial) {
-          const { pageNum, pageSize } = payload
+        const newData = records.map((item: any, index: number) => ({
+          serialNumber: (current - 1) * size + index + 1,
+          ...item,
+        }))
 
-          const newData = records.map((item: any, index: number) => ({
-            serialNumber: (pageNum - 1) * pageSize + index + 1,
-            ...item,
-          }))
-          records = newData
-        }
-
-        yield put({ type: 'saveTableList', payload: records })
-        yield put({ type: 'saveTotal', payload: total })
-        return res
-      } catch (err) {
-        yield put({ type: 'saveTableList', payload: [] })
-        yield put({ type: 'saveTotal', payload: 0 })
-
-        throw new Error(err)
+        records = newData
       }
+
+      yield put({ type: 'saveTableList', payload: records })
+      yield put({ type: 'saveTotal', payload: total })
+      yield put({ type: 'saveCurrent', payload: payload.current })
+
+      return res
     },
     *queryFilterOpts({ payload }, { call, put }) {
       const res = yield call(services.fetchFilterOptsApi, payload)
@@ -151,6 +127,12 @@ const generatePluginModel = <T>(
       return {
         ...state,
         total: payload,
+      }
+    },
+    saveCurrent(state, { payload }) {
+      return {
+        ...state,
+        current: payload,
       }
     },
     saveFilterOpts(state, { payload }) {

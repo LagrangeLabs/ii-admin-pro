@@ -6,11 +6,9 @@ export interface LoginParamsType {
 }
 
 export async function fakeAccountLogin(params: LoginParamsType) {
-  return request.post('/api/login/account', {
-    data: params,
-  })
+  return request.post('/login/account', params)
 }
 
 export async function getFakeCaptcha(mobile: string) {
-  return request(`/api/login/captcha?mobile=${mobile}`)
+  return request(`/login/captcha?mobile=${mobile}`)
 }

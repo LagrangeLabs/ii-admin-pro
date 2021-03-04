@@ -1,28 +1,23 @@
 import { stringify } from 'querystring'
-import { history, Reducer, Effect } from 'umi'
-import { fakeAccountLogin } from '@/services/login'
-import { setAuthority } from '@/utils/authority'
+import { history } from 'umi'
+import type { Effect } from 'umi'
+import { fakeAccountLogin } from './service'
 import { getPageQuery } from '@/utils/utils'
 import { message } from 'antd'
 
-export interface StateType {
+export interface IState {
   status?: boolean
   currentAuthority?: 'user' | 'guest' | 'admin'
 }
 
-export interface LoginModelType {
-  namespace: string
-  state: StateType
-  effects: {
-    login: Effect
-    logout: Effect
-  }
-  reducers: {
-    changeLoginStatus: Reducer<StateType>
-  }
+export interface IEffect {
+  login: Effect
+  logout: Effect
 }
 
-const Model: LoginModelType = {
+export interface IReducer {}
+
+const Model: DvaModel<IState, IEffect, IReducer> = {
   namespace: 'login',
 
   state: {
@@ -30,14 +25,8 @@ const Model: LoginModelType = {
   },
 
   effects: {
-    *login({ payload }, { call, put }) {
+    *login({ payload }, { call }) {
       const response = yield call(fakeAccountLogin, payload)
-      yield put({
-        type: 'changeLoginStatus',
-        payload: {
-          status: response.code === 0,
-        },
-      })
       // 登录成功
       if (response.code === 0) {
         const urlParams = new URL(window.location.href)
@@ -63,9 +52,9 @@ const Model: LoginModelType = {
     logout() {
       const { redirect } = getPageQuery()
       // Note: There may be security issues, please note
-      if (window.location.pathname !== '/user/login' && !redirect) {
+      if (window.location.pathname !== '/login' && !redirect) {
         history.replace({
-          pathname: '/user/login',
+          pathname: '/login',
           search: stringify({
             redirect: window.location.href,
           }),
@@ -74,15 +63,7 @@ const Model: LoginModelType = {
     },
   },
 
-  reducers: {
-    changeLoginStatus(state, { payload }) {
-      setAuthority(payload.currentAuthority)
-      return {
-        ...state,
-        status: payload.status,
-      }
-    },
-  },
+  reducers: {},
 }
 
 export default Model

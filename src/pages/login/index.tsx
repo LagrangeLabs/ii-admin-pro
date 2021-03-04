@@ -2,10 +2,10 @@ import React from 'react'
 import { Form, Input, Checkbox, Button } from 'antd'
 import { UserOutlined, LockOutlined } from '@ant-design/icons'
 import { connect, Dispatch } from 'umi'
-import { StateType } from '@/models/login'
-import { LoginParamsType } from '@/services/login'
-import { ConnectState } from '@/models/connect'
-import styles from '@/pages/user/login/style.less'
+import { StateType } from '@/pages/login/model'
+import type { LoginParamsType } from './service'
+import type { ConnectState } from '@/models/connect'
+import styles from '@/pages/login/style.less'
 
 interface LoginProps {
   dispatch: Dispatch

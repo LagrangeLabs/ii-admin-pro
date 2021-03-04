@@ -1,9 +1,10 @@
 import React, { Fragment, useEffect } from 'react'
 import { connect, Dispatch, Link } from 'umi'
-import { ConnectState } from '@/models/connect'
+import type { ConnectState } from '@/models/connect'
 import { Table } from 'antd'
-import { PluginModelState } from '@/utils/pluginModel'
-import { IDemoRow } from './data'
+import type { PluginModelState } from '@/utils/pluginModel'
+import type { IDemoRow } from './interface'
+import PageHeader from '@/components/page-header'
 
 interface IProps extends PluginModelState<IDemoRow> {
   getDemoList: () => void
@@ -25,6 +26,7 @@ const Demo = (props: IProps) => {
 
   return (
     <Fragment>
+      <PageHeader title="demo页面" />
       <Table columns={columns} dataSource={tableList} rowKey={(row: IDemoRow) => row.id} />
     </Fragment>
   )

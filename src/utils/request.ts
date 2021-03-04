@@ -1,73 +1,62 @@
-/**
- * request 网络请求工具
- * 更详细的 api 文档: https://github.com/umijs/umi-request
- */
-import request, { extend } from 'umi-request'
-import { notification } from 'antd'
+import axios, { AxiosResponse, AxiosRequestConfig } from 'axios'
+import { message } from 'antd'
 
-const codeMessage = {
-  200: '服务器成功返回请求的数据。',
-  201: '新建或修改数据成功。',
-  202: '一个请求已经进入后台排队（异步任务）。',
-  204: '删除数据成功。',
-  400: '发出的请求有错误，服务器没有进行新建或修改数据的操作。',
-  401: '用户没有权限（令牌、用户名、密码错误）。',
-  403: '用户得到授权，但是访问是被禁止的。',
-  404: '发出的请求针对的是不存在的记录，服务器没有进行操作。',
-  406: '请求的格式不可得。',
-  410: '请求的资源被永久删除，且不会再得到的。',
-  422: '当创建一个对象时，发生一个验证错误。',
-  500: '服务器发生错误，请检查服务器。',
-  502: '网关错误。',
-  503: '服务不可用，服务器暂时过载或维护。',
-  504: '网关超时。',
-}
-
-/**
- * 异常处理程序
- */
-const errorHandler = (error: { response: Response }): Response => {
-  const { response } = error
-  if (response && response.status) {
-    const errorText = codeMessage[response.status] || response.statusText
-    const { status, url } = response
-
-    notification.error({
-      message: `请求错误 ${status}: ${url}`,
-      description: errorText,
-    })
-  } else if (!response) {
-    notification.error({
-      description: '您的网络发生异常，无法连接服务器',
-      message: '网络异常',
-    })
-  }
-  return response
-}
-
-/**
- * 请求拦截
- */
-request.interceptors.request.use((url, options) => {
-  return {
-    url: `${url}`,
-    options: { ...options, interceptors: true },
-  }
+const services = axios.create({
+  baseURL: '/api',
 })
+// 请求拦截器
+services.interceptors.request.use(
+  (config: AxiosRequestConfig) => {
+    /* eslint-disable */
+    if (localStorage.getItem('accessToken')) {
+      config.headers['Authorization'] = localStorage.getItem('accessToken') || ''
+    }
+    // 根据项目是否接UIC 来确认是否使用下边代码
+    config.headers['SERVICE-UID'] =
+      process.env.APP_ENV === 'prod' ? 'II-CALL-PLATFORM-SAAS' : 'CLOUDDO-SAAS-BETA' // uic 应用平台标志
+    return config
+    /* eslint-enable */
+  },
+  (error) => {
+    return Promise.reject(error)
+  },
+)
 
-/**
- * 响应拦截
- */
-request.interceptors.response.use((response) => {
-  return response
-})
+// 响应拦截器
+services.interceptors.response.use(
+  (response: AxiosResponse) => {
+    const res = response.data
+    // 导出blob
+    if (response?.config?.responseType === 'blob') {
+      return response
+    }
+    // 未登录
+    if (res?.code === 401 || res?.code === 24011 || res?.code === 2009) {
+      localStorage.clear()
+      // 以下针对UIC不同环境跳转不同登录页面
+      // 测试环境
+      if (process.env.APP_ENV === 'test') {
+        window.location.replace(
+          'http://qianyin-zarab-fe-out.dev.ii-ai.tech:8000/#/account?serviceUid=CLOUDDO-SAAS-BETA',
+        )
+        // 正式环境
+      } else if (process.env.APP_ENV === 'prod') {
+        window.location.replace(
+          'http://qianyin-zarab-fe.ai-indeed.com/#/account?serviceUid=II-CALL-PLATFORM-SAAS',
+        )
+      }
+    }
+    // 未成功
+    if (res?.code !== 0) {
+      message.error(res.msg)
+      return Promise.reject(res)
+    }
+    return res
+  },
+  (error) => {
+    message.error(error.message || error.msg || '发生错误')
+    return Promise.reject(error)
+  },
+)
 
-/**
- * 配置request请求时的默认参数
- */
-extend({
-  errorHandler, // 默认错误处理
-  credentials: 'include', // 默认请求是否带上cookie
-})
-
-export default request
+export default services

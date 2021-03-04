@@ -18,6 +18,7 @@ import { ConnectState } from '@/models/connect'
 import { getMatchMenu } from '@umijs/route-utils'
 import zhCN from 'antd/lib/locale/zh_CN'
 import logo from '../assets/logo.svg'
+import '@/assets/styles/index.less'
 
 const noMatch = (
   <Result
@@ -26,7 +27,7 @@ const noMatch = (
     subTitle="Sorry, you are not authorized to access this page."
     extra={
       <Button type="primary">
-        <Link to="/user/login">Go Login</Link>
+        <Link to="/login">Go Login</Link>
       </Button>
     }
   />

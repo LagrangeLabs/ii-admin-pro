@@ -1,9 +1,9 @@
 import request from '@/utils/request'
 
 export async function query(): Promise<any> {
-  return request('/api/users')
+  return request('/users')
 }
 
 export async function queryCurrent(): Promise<any> {
-  return request('/api/currentUser')
+  return request('/currentUser')
 }

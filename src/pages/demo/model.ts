@@ -1,23 +1,20 @@
-import { fetchDemoList } from '@/pages/demo/services/demo'
+import { fetchDemoList } from '@/pages/demo/service'
 import generateTableModel from '@/utils/pluginModel'
 import { merge } from 'lodash'
-import { IDemoRow } from '../data'
+import { IDemoRow } from './interface'
 
-export interface StateType {}
+export interface IState {}
 
-export interface DemoModelType {
-  namespace: string
-  state: StateType
-  effects: {}
-  reducers: {}
-}
+export interface IEffect {}
+
+export interface IReducer {}
 
 const namespace = 'demo'
 const tableCommonModel = generateTableModel<IDemoRow>(namespace, {
   fetchListApi: fetchDemoList,
 })
 
-const DemoModel: DemoModelType = {
+const DemoModel: DvaModel<IState, IEffect, IReducer> = {
   namespace,
   state: {},
   effects: {},
