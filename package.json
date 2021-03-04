@@ -6,6 +6,7 @@
   "scripts": {
     "analyze": "cross-env ANALYZE=1 umi build",
     "build": "umi build",
+    "build-prod": "REACT_APP_ENV=prod umi build",
     "deploy": "npm run site && npm run gh-pages",
     "dev": "npm run start:dev",
     "fetch:blocks": "pro fetch-blocks && npm run prettier",
@@ -24,7 +25,7 @@
     "start:dev": "cross-env REACT_APP_ENV=dev MOCK=none umi dev",
     "start:no-mock": "cross-env MOCK=none umi dev",
     "start:no-ui": "cross-env UMI_UI=none umi dev",
-    "start:pre": "cross-env REACT_APP_ENV=pre umi dev",
+    "start:prod": "cross-env REACT_APP_ENV=prod umi dev",
     "start:test": "cross-env REACT_APP_ENV=test MOCK=none umi dev"
   },
   "lint-staged": {
