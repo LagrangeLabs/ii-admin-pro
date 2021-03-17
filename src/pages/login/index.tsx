@@ -33,6 +33,7 @@ const Login: React.FC<LoginProps> = (props) => {
   const changeType = (checked: boolean) => {
     setType(checked ? LOGIN_TYPE : '')
   }
+  const height44 = { height: '44px', lineHeight: '44px' }
 
   return (
     <div className={styles.pageContainer}>
@@ -54,14 +55,14 @@ const Login: React.FC<LoginProps> = (props) => {
               <h5 className={styles.title}>ii-admin-pro</h5>
               <FormItem name="username" rules={[{ required: true, message: '请输入用户名!' }]}>
                 <Input
-                  style={{ height: '44px', lineHeight: '44px' }}
+                  style={height44}
                   placeholder="请输入用户名:admin"
                   prefix={<UserOutlined className={styles.prefixIcon} />}
                 />
               </FormItem>
               <FormItem name="password" rules={[{ required: true, message: '请输入密码!' }]}>
                 <Input.Password
-                  style={{ height: '44px', lineHeight: '44px' }}
+                  style={height44}
                   placeholder="请输入密码:123456"
                   prefix={<LockOutlined className={styles.prefixIcon} />}
                 />
@@ -70,7 +71,13 @@ const Login: React.FC<LoginProps> = (props) => {
                 <Checkbox name="autoLogin">自动登录</Checkbox>
               </FormItem>
               <Form.Item>
-                <Button type="primary" htmlType="submit" block loading={submitting}>
+                <Button
+                  style={{ height: '44px' }}
+                  type="primary"
+                  htmlType="submit"
+                  block
+                  loading={submitting}
+                >
                   登录
                 </Button>
               </Form.Item>
