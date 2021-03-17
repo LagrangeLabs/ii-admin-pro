@@ -54,12 +54,14 @@ const Login: React.FC<LoginProps> = (props) => {
               <h5 className={styles.title}>ii-admin-pro</h5>
               <FormItem name="username" rules={[{ required: true, message: '请输入用户名!' }]}>
                 <Input
+                  style={{ height: '44px', lineHeight: '44px' }}
                   placeholder="请输入用户名:admin"
                   prefix={<UserOutlined className={styles.prefixIcon} />}
                 />
               </FormItem>
               <FormItem name="password" rules={[{ required: true, message: '请输入密码!' }]}>
                 <Input.Password
+                  style={{ height: '44px', lineHeight: '44px' }}
                   placeholder="请输入密码:123456"
                   prefix={<LockOutlined className={styles.prefixIcon} />}
                 />
