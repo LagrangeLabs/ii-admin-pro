@@ -10,6 +10,10 @@ export interface IState {
   currentAuthority?: 'user' | 'guest' | 'admin'
 }
 
+export type StateType = {
+  status?: string
+}
+
 export interface IEffect {
   login: Effect
   logout: Effect

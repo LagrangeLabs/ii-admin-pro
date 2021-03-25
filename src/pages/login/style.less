@@ -1,19 +1,66 @@
 // @import '~antd/es/style/themes/default.less';
 
+.pageContainer {
+  display: flex;
+  align-items: center;
+  height: 100vh;
+  background-color: #f6f8fa;
+}
+.loginContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100vh;
+  &.planA {
+    width: auto;
+    height: auto;
+    margin: 0 auto;
+    background-color: #fff;
+    box-shadow: 0 20px 60px 0 rgba(0, 0, 0, 0.08);
+    .main {
+      box-shadow: none;
+    }
+  }
+}
+.loginImg {
+  width: 476px;
+  height: 556px;
+  vertical-align: middle;
+}
+.imgPart {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  height: 100%;
+  background-color: #ecf5ff;
+}
+.formPart {
+  flex: 1;
+}
 .main {
-  width: 450px;
+  width: 446px;
   margin: 0 auto;
-  padding: 60px 40px;
+  padding: 60px 40px 90px;
+  background: #fff;
+  border-radius: 4px;
   box-shadow: 0 6px 18px 0 rgba(0, 0, 0, 0.06);
+}
+.title {
+  margin-bottom: 28px;
+  color: #334355;
+  font-weight: 500;
+  font-size: 24px;
+}
+.warnText {
+  margin-top: 30px;
+  color: #5c6f88;
+  font-weight: 400;
+  font-size: 13px;
+  text-align: center;
+}
 
-  .title {
-    margin-bottom: 24px;
-    font-weight: 500;
-    font-size: 28px;
-  }
-
-  .prefixIcon {
-    color: #0085ff;
-    font-size: 12px;
-  }
+.prefixIcon {
+  color: #0085ff;
+  font-size: 12px;
 }
