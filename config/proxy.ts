@@ -7,10 +7,10 @@
  */
 export default {
   dev: {
-    '/api/': {
-      target: 'your pre url',
+    '/api/recruit': {
+      target: 'http://yapi.ii-ai.tech/mock/382',
       changeOrigin: true,
-      pathRewrite: { '^': '' },
+      pathRewrite: { '^/api': '' },
     },
   },
   test: {

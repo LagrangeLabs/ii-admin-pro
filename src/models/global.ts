@@ -1,4 +1,4 @@
-import { Reducer } from 'umi'
+import type { Reducer } from 'umi'
 
 export interface GlobalModelState {
   collapsed: boolean
@@ -7,9 +7,11 @@ export interface GlobalModelState {
 export interface GlobalModelType {
   namespace: 'global'
   state: GlobalModelState
+  // eslint-disable-next-line @typescript-eslint/ban-types
   effects: {}
   reducers: {
     changeLayoutCollapsed: Reducer<GlobalModelState>
+    updateState: Reducer<GlobalModelState>
   }
 }
 
@@ -27,6 +29,12 @@ const GlobalModel: GlobalModelType = {
       return {
         ...state,
         collapsed: payload,
+      }
+    },
+    updateState(state, { payload }) {
+      return {
+        ...state,
+        ...payload,
       }
     },
   },

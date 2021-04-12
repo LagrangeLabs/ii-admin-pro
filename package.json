@@ -47,6 +47,9 @@
     "antd": "^4.8.6",
     "axios": "^0.21.1",
     "classnames": "^2.2.6",
+    "ii-admin-base": "^1.2.5",
+    "ii-admin-business": "^0.1.37",
+    "ii-admin-ui": "^1.1.0",
     "lodash": "^4.17.11",
     "moment": "^2.25.3",
     "omit.js": "^2.0.2",
@@ -101,5 +104,6 @@
     "src/**/*.less",
     "config/**/*.js*",
     "scripts/**/*.js"
-  ]
+  ],
+  "__npminstall_done": false
 }

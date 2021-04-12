@@ -31,6 +31,18 @@
             component: '@/pages/demo',
           },
           {
+            path: '/recruit-manage/searchTable/resumeList',
+            name: '动态路由-search-table',
+            icon: 'crown',
+            component: '@/pages/search-table',
+          },
+          {
+            path: '/recruit-manage/searchTable/channelList',
+            name: '动态路由-channelList',
+            icon: 'crown',
+            component: '@/pages/search-table',
+          },
+          {
             component: './404',
           },
         ],
