@@ -43,6 +43,12 @@
             component: '@/pages/search-table',
           },
           {
+            path: '/antd-reset-demo',
+            name: 'antd组件 样式修改',
+            icon: 'crown',
+            component: '@/pages/reset-demo',
+          },
+          {
             component: './404',
           },
         ],

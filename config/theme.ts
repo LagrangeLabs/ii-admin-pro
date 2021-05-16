@@ -1,5 +1,6 @@
 export default {
   '@primary-color': '#0085ff', // 全局主色
+  '@primary-7': '#0090fb',
   '@link-color': '#0085ff', // 链接色
   '@success-color': '#2DD17C', // 成功色
   '@warning-color': '#FF7B24', // 警告色
@@ -18,6 +19,17 @@ export default {
   '@tabs-horizontal-padding': '9px 36px',
   '@tabs-card-gutter': '0',
   '@tabs-card-height': '36px',
+  '@tabs-card-active-color': '#0090fb',
+  '@tabs-highlight-color': '#0090fb',
+
+  // radio
+  '@radio-dot-color': '#0090fb',
+
   // tables
   '@table-header-bg': '#EAEEF2',
+
+  // height rules
+  '@height-base': '28px',
+  '@height-lg': '36px',
+  '@height-sm': '24px',
 }
