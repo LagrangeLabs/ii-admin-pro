@@ -20,8 +20,9 @@ npm start
 ```bash
 # 测试环境
 npm run build
+
 # 正式环境
-npm run build-prod
+npm run build:prod
 ```
 
 ### 检查代码格式

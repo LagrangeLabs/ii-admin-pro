@@ -13,7 +13,7 @@ const proSettings: DefaultSettings = {
   fixedHeader: false,
   fixSiderbar: true,
   colorWeak: false,
-  title: 'II Admin Pro',
+  title: 'II ADMIN PRO',
   pwa: false,
   iconfontUrl: '',
   splitMenus: false,
