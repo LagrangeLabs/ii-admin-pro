@@ -1,12 +1,12 @@
 {
   "name": "ii-admin-pro",
-  "version": "4.3.0",
+  "version": "4.3.1",
   "private": true,
   "description": "An out-of-box UI solution for enterprise applications",
   "scripts": {
     "analyze": "cross-env ANALYZE=1 umi build",
     "build": "umi build",
-    "build-prod": "REACT_APP_ENV=prod umi build",
+    "build:prod": "REACT_APP_ENV=prod umi build",
     "deploy": "npm run site && npm run gh-pages",
     "dev": "npm run start:dev",
     "fetch:blocks": "pro fetch-blocks && npm run prettier",
