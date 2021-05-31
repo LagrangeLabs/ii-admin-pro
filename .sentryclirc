@@ -1,0 +1,7 @@
+[defaults]
+project=ii-admin-pro
+url=http://sentry.ai-indeed.com/
+org=sentry
+
+[auth]
+token=写入自己的Token

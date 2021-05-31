@@ -3,6 +3,7 @@ import { defineConfig } from 'umi'
 import proxy from './proxy'
 import routes from './routes'
 import theme from './theme'
+import SentryWebpackPlugin from '@sentry/webpack-plugin'
 
 const { REACT_APP_ENV } = process.env
 
@@ -13,6 +14,7 @@ export default defineConfig({
     // 当前运行环境
     'process.env.APP_ENV': REACT_APP_ENV,
   },
+  devtool: 'source-map',
   dva: {
     hmr: true,
     skipModelValidate: true,
@@ -38,4 +40,20 @@ export default defineConfig({
     basePath: '/',
   },
   esbuild: {},
+  chainWebpack: function (config, { webpack }) {
+    if (process.env.REACT_APP_ENV === 'prod') {
+      config.plugin('sentry').use(SentryWebpackPlugin, [
+        {
+          // sentry-cli configuration
+          configFile: './sentryclirc',
+          release: '2.1.0',
+
+          // webpack specific configuration
+          include: './dist',
+          ignore: ['node_modules', 'config'],
+          urlPrefix: '~/',
+        },
+      ])
+    }
+  },
 })
