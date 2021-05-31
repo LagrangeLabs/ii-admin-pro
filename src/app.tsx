@@ -9,7 +9,7 @@ Sentry.init({
   // of transactions for performance monitoring.
   // We recommend adjusting this value in production
   tracesSampleRate: 1.0,
-  release: '2.1.0',
+  release: process.env.npm_package_version,
 })
 
 export const dva = {

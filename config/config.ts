@@ -46,7 +46,7 @@ export default defineConfig({
         {
           // sentry-cli configuration
           configFile: './sentryclirc',
-          release: '2.1.0',
+          release: process.env.npm_package_name,
 
           // webpack specific configuration
           include: './dist',
