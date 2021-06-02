@@ -71,9 +71,20 @@ Sentry.init({
 })
 ```
 
+#### 组件库使用
+
+使用 ii-admin-ui、ii-admin-base、ii-admin-business 时
+
+- 短期项目：版本号可以固定
+- 长期项目：版本号固定或者自动升级都可以~
+
 ## 二、版本改动点
 
-**版本 2.1.0** 
+**版本 2.1.1**
+
+- ii-admin-ui、ii-admin-base、ii-admin-business 支持按需引入
+
+**版本 2.1.0**
 
 - 添加 sentry 的工程化配置；
 - 添加 sentry 文档配置描述；
