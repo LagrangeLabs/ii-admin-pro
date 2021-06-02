@@ -40,6 +40,31 @@ export default defineConfig({
     basePath: '/',
   },
   esbuild: {},
+  extraBabelPlugins: [
+    [
+      'import',
+      {
+        libraryName: 'ii-admin-ui',
+        libraryDirectory: 'lib/components',
+      },
+    ],
+    [
+      'import',
+      {
+        libraryName: 'ii-admin-base',
+        libraryDirectory: 'lib',
+      },
+      'second',
+    ],
+    [
+      'import',
+      {
+        libraryName: 'ii-admin-business',
+        libraryDirectory: 'lib',
+      },
+      'third',
+    ],
+  ],
   chainWebpack: function (config, { webpack }) {
     if (process.env.REACT_APP_ENV === 'prod') {
       config.plugin('sentry').use(SentryWebpackPlugin, [
